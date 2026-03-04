@@ -1,4 +1,4 @@
-import PocketBase from 'pocketbase';
+import PocketBase, { type AuthRecord } from 'pocketbase';
 
 export default defineNuxtPlugin(async () => {
   const pb = new PocketBase('http://127.0.0.1:8090') as TypedPocketBase;
@@ -30,7 +30,14 @@ export default defineNuxtPlugin(async () => {
       pb.authStore.clear();
   }
 
+  //valeur réactive reflétant l'utilisateur
+  const user = ref<AuthRecord | null>(null);
+  pb.authStore.onChange((token, record) =>{
+    console.log({token,record});
+    user.value = record;
+  })
+
   return {
-    provide: { pb }
+    provide: { pb, user }
   }
 });

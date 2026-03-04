@@ -124,6 +124,7 @@ export type FilmRecord = {
 	synopsis?: HTMLString
 	titre?: string
 	updated: IsoAutoDateString
+	user?: RecordIdString
 }
 
 export enum PersonneProfessionOptions {
