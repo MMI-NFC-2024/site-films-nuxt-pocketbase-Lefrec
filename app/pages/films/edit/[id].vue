@@ -6,12 +6,14 @@
     const film = ref({} as FilmResponse);
 
     onMounted(async () => {
-        film.value = await nuxtApp.$pb.collection("film").getOne(id);
-        film.value.date_sortie = (new Date(film.value.date_sortie)).toISOString().split("T")[0] as string;
+        if (id != 'ajouter') {
+            film.value = await nuxtApp.$pb.collection("film").getOne(id);
+            film.value.date_sortie = (new Date(film.value.date_sortie)).toISOString().split("T")[0] as string;
+        }
     })
 
     async function editFilm(){
-        if (id) {
+        if (id != 'ajouter') {
             const editedFilm = await nuxtApp.$pb.collection("film").update(id,{
                 ...film.value, 
                 user: nuxtApp.$user.value?.id
